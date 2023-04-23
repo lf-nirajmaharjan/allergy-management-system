@@ -1,0 +1,13 @@
+.shrink + .main-content {
+  margin-left: $aside-width-sm;
+  width: calc(100vw - $aside-width-sm);
+  transition: all 0.1s ease-in-out;
+}
+
+.main-content {
+  margin-left: $aside-width;
+  width: calc(100vw - $aside-width);
+  height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}

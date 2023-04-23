@@ -1,0 +1,85 @@
+// Base Color
+$white: #ffffff !default;
+$black: #000000 !default;
+
+$primary: #01263c !default;
+$secondary: #83c447 !default;
+
+$ever-green: #055d54 !default;
+$red: #e76161 !default;
+
+//Color Palette
+
+$colorMap: (
+	'white': (
+		'base': $white,
+	),
+	'black': (
+		'base': $black,
+	),
+	'primary': (
+		'base': $primary,
+		'80': #2b4154,
+		'60': #546071,
+		'40': #808796,
+		'20': #b5b8c1,
+		'15': #b9d4ec,
+		'10': #ddeeff,
+		'2': #f5faff,
+	),
+	'secondary': (
+		'base': $secondary,
+		'80': '#9CCE69',
+		'60': #b3d78d,
+		'40': #cce3b1,
+		'20': #e3f0d5,
+	),
+	'lightbeige': (
+		'100': #d5dec6,
+		'80': #dde4d0,
+		'60': #e6ebda,
+		'40': #edf2e7,
+		'20': #f5f8f2,
+	),
+	'green-glow': (
+		'100': #ccdc42,
+		'80': #d5e16c,
+		'60': #dee792,
+		'40': #e8efb6,
+		'20': #f2f6d8,
+	),
+	'danger': (
+		'base': $red,
+		'40': rgba(#f6c5c5, 40%),
+	),
+	'ever-green': (
+		'base': $ever-green,
+		'80': #3d736c,
+		'60': #688b87,
+		'40': #92a9a6,
+		'20': #c3cecb,
+	),
+	'grey': (
+		'base': #231f20,
+		'80': #57585a,
+		'60': #808285,
+		'40': #a8a9ad,
+		'20': #d1d2d4,
+		'15': #e3e4e6,
+		'10': #eeeff1,
+		'5': #f7f8fa,
+	),
+	'warning': (
+		'base': #ffc107,
+		'20': #fff3cd,
+		'10': #fffcf2,
+	),
+);
+
+// @@ This color map is used for Buttons
+$theme-colors: (
+	'primary': $primary,
+	'secondary': $secondary,
+	'danger': getColor('danger.base'),
+	'evergreen': getColor('ever-green.base'),
+);

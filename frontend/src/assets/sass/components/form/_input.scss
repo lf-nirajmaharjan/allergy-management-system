@@ -1,0 +1,92 @@
+.form {
+  margin-bottom: getSpacing('5x');
+
+  @include e('label') {
+    color: getColor('grey.80');
+    margin-bottom: getSpacing('1x');
+    display: block;
+
+    .required {
+      color: getColor('danger.base');
+      margin-left: 4px;
+    }
+  }
+
+  @include e('control') {
+    width: 100%;
+    border: 1px solid getColor('grey.20');
+    padding: 0 getSpacing('3x');
+    color: getColor('grey.base');
+    height: 37px;
+    border-radius: 2px;
+    &::placeholder {
+      color: getColor('grey.20');
+    }
+    &:focus-visible {
+      outline: none;
+    }
+
+    &:focus {
+      ~ .icon-eye {
+        svg {
+          path {
+            fill: getColor('grey.80');
+          }
+        }
+      }
+    }
+
+    &.is-error {
+      border-color: getColor('danger.base');
+    }
+  }
+
+  &-group {
+    position: relative;
+
+    .icon-eye {
+      position: absolute;
+      right: 12px;
+      bottom: 5px;
+
+      @include m('closed') {
+        bottom: 8px;
+      }
+    }
+  }
+}
+
+textarea.form__control {
+  height: auto;
+  padding: getSpacing('3x');
+  resize: vertical;
+}
+
+// Error Messages
+
+.error-msg {
+  background: getColor('danger.40');
+  padding: getSpacing('2x') 10px;
+  color: getColor('danger.base');
+  display: flex;
+  align-items: center;
+  border-radius: 2px;
+
+  svg {
+    margin-top: -2px;
+    path {
+      fill: getColor('danger.base');
+    }
+  }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}

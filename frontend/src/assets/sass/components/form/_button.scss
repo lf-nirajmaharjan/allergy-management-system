@@ -1,0 +1,213 @@
+/* #######################
+
+@@usage::
+
+// --> variant ("primary", "secondary") or as per defined in $theme-colors Map in "colors.scss" variable fils.
+//       ## Usage:
+//       btn--primary, btn--secondary
+//       ## For outlined buttons:
+//       btn--outlined--primary, btn--outlined--secondary
+//
+
+##########################*/
+
+/* Button Defaults */
+%btn-default {
+  padding: 9px 12px 7px;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: $font-primary;
+  font-weight: 400;
+  border-radius: 2px;
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: getColor('ever-green.20');
+    color: getColor('white.base');
+
+    &:hover {
+      background-color: getColor('ever-green.20');
+      color: getColor('white.base');
+    }
+  }
+}
+
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.btn {
+  @extend %btn-default;
+  position: relative;
+
+  @include m(block) {
+    display: block;
+    width: 100%;
+  }
+
+  @include m(inline-block) {
+    display: inline-block;
+  }
+
+  &-link {
+    background: transparent;
+    color: getColor('primary.base');
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &:disabled {
+      background: transparent;
+      color: getColor('grey.20');
+      &:hover {
+        background: transparent;
+        color: getColor('grey.20');
+      }
+    }
+  }
+
+  &-circle {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: transparent;
+    @include display-flex(row, center, center);
+
+    &:hover {
+      background: getColor('primary.15');
+
+      svg {
+        path {
+          fill: getColor('primary.base');
+        }
+      }
+    }
+  }
+}
+
+.btn-outlined {
+  @extend %btn-default;
+  border-width: 1px;
+  border-style: solid;
+  position: relative;
+}
+
+.btn-ghost {
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: getColor('grey.80');
+
+  &:hover {
+    background: getColor('primary.10');
+  }
+
+  &.selected {
+    background: getColor('primary.10');
+
+    color: getColor('primary.base');
+    svg {
+      path {
+        fill: getColor('primary.base');
+      }
+    }
+  }
+
+  svg {
+    path {
+      fill: getColor('primary.40');
+    }
+  }
+}
+
+.spinner {
+  border: 2px solid getColor('primary.base');
+  border-top: 2px solid getColor('white.base');
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 0.7s linear infinite;
+  position: absolute;
+  right: 8px;
+}
+
+.btn,
+.btn-outlined {
+  &.has-loader {
+    .spinner {
+      width: 14px;
+      height: 14px;
+      position: static;
+      display: inline-block;
+      margin-left: getSpacing('2x');
+    }
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@each $theme-color, $color in $theme-colors {
+  .btn-#{$theme-color} {
+    background-color: $color;
+    color: getColor('white.base');
+
+    &:hover {
+      background-color: darken($color, 10%);
+      color: getColor('white.base');
+    }
+  }
+
+  //For Outline Buttons
+  .btn-#{$theme-color}--outlined {
+    border-color: $color;
+    color: $color;
+
+    &:hover {
+      background-color: $color;
+      color: getColor('white.base');
+    }
+  }
+}
+
+.btn-primary {
+  background-color: getColor('ever-green.base');
+
+  &:hover {
+    background-color: getColor('ever-green.80');
+  }
+}
+
+.btn-primary--outlined {
+  &:hover {
+    background-color: getColor('ever-green.80');
+  }
+}
+
+.btn-continue {
+  background: getColor('white.base');
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: left;
+  border-radius: 0.25rem;
+  box-shadow: 0px 2px 8px rgba(184, 184, 184, 0.2);
+
+  &:hover {
+    box-shadow: 0px 2px 20px rgba(184, 184, 184, 0.5);
+    color: getColor('ever-green.base');
+  }
+}
