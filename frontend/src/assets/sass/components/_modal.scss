@@ -1,0 +1,29 @@
+.modal {
+	@include e('wrapper') {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		@include display-flex(column, center, center);
+		background: rgba(getColor('black.base'), 0.5);
+		z-index: 999;
+		padding: 50px 0;
+	}
+
+	@extend .has-box-shadow;
+	position: relative;
+	padding: getSpacing('5x') getSpacing('8x');
+	background: getColor('white.base');
+	border-radius: 4px;
+	min-width: 416px;
+	max-width: 565px;
+	overflow: auto;
+
+	@include e('close') {
+		position: absolute;
+		top: 10px;
+		right: 15px;
+		font-size: 30px;
+	}
+}

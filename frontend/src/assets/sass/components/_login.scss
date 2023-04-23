@@ -1,0 +1,19 @@
+.login__page {
+  display: flex;
+  height: 100vh;
+}
+
+.login__left {
+  width: 50vw;
+  background: getColor('primary.base');
+  @include display-flex(row, center, center);
+}
+
+.login__right {
+  width: 50vw;
+  @include display-flex(column, center, center);
+}
+
+.login__form {
+  width: 352px;
+}

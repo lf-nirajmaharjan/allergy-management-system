@@ -1,0 +1,39 @@
+.account {
+  @include e('number') {
+    @include e('input') {
+      border: 1px solid getColor('grey.40');
+      padding: getSpacing('1x') getSpacing('2x');
+      height: 33px;
+      font-size: 0.875rem;
+      background: transparent;
+    }
+
+    @include e('box') {
+      position: relative;
+
+      &:after {
+        content: '';
+        display: inline-block;
+        width: 1px;
+        height: 20px;
+        background: getColor('grey.20');
+        margin: 0 getSpacing('5x');
+      }
+    }
+  }
+
+  @include e('sidebar') {
+    .rowlist__header {
+      color: getColor('ever-green.80');
+    }
+
+    .rowlist__label {
+      color: #3e3e40;
+    }
+  }
+}
+
+.right-side {
+  max-width: 305px;
+  width: 100%;
+}

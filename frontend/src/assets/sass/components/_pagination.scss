@@ -1,0 +1,95 @@
+.tabulator {
+  .tabulator-footer {
+    background: getColor('white.base');
+    padding: getSpacing('4x');
+    margin-top: getSpacing('1x');
+    font-weight: 400;
+    border: none;
+    box-shadow: 0px 2px 8px rgba(184, 184, 184, 0.2);
+    border-radius: 2px;
+
+    .tabulator-page {
+      width: 24px;
+      height: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+
+      &[data-page='first'],
+      &[data-page='last'] {
+        display: none;
+      }
+
+      &[data-page='prev'] {
+        font-size: 0px;
+        &::before {
+          content: '';
+          display: inline-block;
+          border-left: 2px solid getColor('grey.40');
+          border-top: 2px solid getColor('grey.40');
+          width: 6px;
+          height: 6px;
+          margin-left: 3px;
+          transform: rotate(-45deg);
+        }
+      }
+
+      &[data-page='next'] {
+        font-size: 0px;
+        &::before {
+          content: '';
+          display: inline-block;
+          border-right: 2px solid getColor('grey.40');
+          border-bottom: 2px solid getColor('grey.40');
+          width: 5px;
+          height: 5px;
+          margin-left: -3px;
+          transform: rotate(-45deg);
+        }
+      }
+
+      &.active {
+        background: getColor('primary.80');
+        color: getColor('white.base');
+      }
+
+      &:not(.disabled) {
+        &:hover {
+          background: getColor('primary.80');
+          color: getColor('white.base');
+
+          &:before {
+            border-color: getColor('white.base');
+          }
+        }
+      }
+
+      &:disabled {
+        &:hover {
+          background: transparent;
+          cursor: not-allowed;
+
+          &:before {
+            border-color: getColor('grey.40');
+          }
+        }
+      }
+    }
+
+    .tabulator-paginator {
+      flex-grow: 0;
+      color: getColor('grey.60');
+      order: 1;
+      margin-right: getSpacing('2x');
+    }
+
+    .tabulator-page-counter {
+      order: 2;
+    }
+
+    .tabulator-footer-contents {
+      justify-content: flex-end;
+    }
+  }
+}
