@@ -1,11 +1,12 @@
 import './assets/sass/style.scss';
-import Login from './pages/login/Login';
+import { BrowserRouter } from 'react-router-dom';
+import Router from './routes/Router';
 
 function App() {
 	return (
-		<div className='App'>
-			<Login />
-		</div>
+		<BrowserRouter>
+			<Router />
+		</BrowserRouter>
 	);
 }
 
