@@ -1,5 +1,7 @@
+import { ErrorMessage, Formik } from 'formik';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import * as Yup from 'yup';
 
 const Login = () => {
 	const [inputData, setInputData] = useState({
@@ -16,19 +18,18 @@ const Login = () => {
 		console.log([e.target.name]);
 	};
 
-	const handleLogin = (e) => {
-		e.preventDefault();
-		const existingUser = JSON.parse(localStorage.getItem('user'));
-
-		if (
-			inputData.name.toLowerCase === existingUser.name.toLowerCase &&
-			inputData.password === existingUser.password
-		) {
-			navigate('/dashboard');
-		} else {
-			console.log('User does not exist');
-		}
+	const initialValues = {
+		name: '',
+		password: '',
 	};
+
+	const loginSchema = Yup.object().shape({
+		name: Yup.string().required('Username is required'),
+		password: Yup.string()
+			.required('Password is required')
+			.min(4, 'Password is too short -  Should be atleast 4 Chars minimum')
+			.max(10, 'Password is too Long'),
+	});
 
 	return (
 		<>
@@ -38,49 +39,67 @@ const Login = () => {
 				{<Link to='/register'>Signup</Link>}
 			</p>
 
-			<form
-				className='login__form mt-6x'
-				onSubmit={handleLogin}
+			<Formik
+				initialValues={initialValues}
+				validationSchema={loginSchema}
+				onSubmit={(values) => {
+					console.log(values);
+				}}
 			>
-				<div className='form-group mb-4x'>
-					<label
-						htmlFor=''
-						className='form__label'
+				{(props) => (
+					<form
+						className='login__form mt-6x'
+						onSubmit={props.handleSubmit}
 					>
-						Username
-						<span className='required'>*</span>
-					</label>
+						<div className='form-group mb-4x'>
+							<label
+								htmlFor=''
+								className='form__label'
+							>
+								Username
+								<span className='required'>*</span>
+							</label>
 
-					<input
-						type='text'
-						className='form__control'
-						placeholder='Enter the Username'
-						name='name'
-						value={inputData.name}
-						onChange={onChangeValue}
-					/>
-				</div>
-				<div className='form-group mb-4x'>
-					<label
-						htmlFor=''
-						className='form__label'
-					>
-						Password
-						<span className='required'>*</span>
-					</label>
+							<input
+								type='text'
+								className='form__control'
+								placeholder='Enter the Username'
+								name='name'
+								onChange={props.handleChange}
+								onBlur={props.handleBlur}
+								value={props.values.name}
+							/>
+							<div className='error'>
+								<ErrorMessage name='name' />
+							</div>
+						</div>
+						<div className='form-group mb-4x'>
+							<label
+								htmlFor=''
+								className='form__label'
+							>
+								Password
+								<span className='required'>*</span>
+							</label>
 
-					<input
-						type='password'
-						className='form__control'
-						placeholder='Enter the Password'
-						name='password'
-						value={inputData.password}
-						onChange={onChangeValue}
-					/>
-				</div>
+							<input
+								type='password'
+								className='form__control'
+								placeholder='Enter the Password'
+								onChange={props.handleChange}
+								onBlur={props.handleBlur}
+								value={props.values.password}
+								name='password'
+							/>
+							<div className='error'>
+								<ErrorMessage name='password' />
+							</div>
+						</div>
 
-				<button className='btn btn-primary w-100'>Login</button>
-			</form>
+						<button className='btn btn-primary w-100'>Login</button>
+					</form>
+				)}
+			</Formik>
 		</>
 	);
 };
