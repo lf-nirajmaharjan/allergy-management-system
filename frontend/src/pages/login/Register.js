@@ -1,28 +1,24 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+import * as Yup from 'yup';
+import { Formik, ErrorMessage } from 'formik';
 
 const Register = () => {
-	const [inputData, setInputData] = useState({
+	const initialValues = {
 		name: '',
 		email: '',
 		password: '',
+	};
+
+	const signInSchema = Yup.object().shape({
+		name: Yup.string().required('Username is required'),
+		email: Yup.string().email('Invalid email.').required('Email is required'),
+		password: Yup.string()
+			.required('Password is required')
+			.min(4, 'Password is too short -  Should be atleast 4 Chars minimum')
+			.max(10, 'Password is too Long'),
 	});
-
-	const navigate = useNavigate();
-
-	const onChangeValue = (e) => {
-		e.preventDefault();
-		setInputData({ ...inputData, [e.target.name]: e.target.value });
-	};
-
-	// Store value in LocalStorage
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		localStorage.setItem('user', JSON.stringify(inputData));
-
-		//Redirect to Login page
-		navigate();
-	};
 
 	return (
 		<>
@@ -31,67 +27,92 @@ const Register = () => {
 				Already have an account?
 				<Link to='/login'>Login</Link>
 			</p>
-			<form
-				className='login__form mt-6x'
-				onSubmit={handleSubmit}
+
+			<Formik
+				initialValues={initialValues}
+				validationSchema={signInSchema}
+				onSubmit={(values) => {
+					console.log(values);
+				}}
 			>
-				<div className='form-group mb-4x'>
-					<label
-						htmlFor=''
-						className='form__label'
+				{(props) => (
+					<form
+						className='login__form mt-6x'
+						onSubmit={props.handleSubmit}
 					>
-						Username
-						<span className='required'>*</span>
-					</label>
+						<div className='form-group mb-4x'>
+							<label
+								htmlFor=''
+								className='form__label'
+							>
+								Username
+								<span className='required'>*</span>
+							</label>
 
-					<input
-						type='text'
-						className='form__control'
-						placeholder='Enter the Username'
-						name='name'
-						value={inputData.name}
-						onChange={onChangeValue}
-					/>
-				</div>
-				<div className='form-group mb-4x'>
-					<label
-						htmlFor=''
-						className='form__label'
-					>
-						Email
-						<span className='required'>*</span>
-					</label>
+							<input
+								type='text'
+								className='form__control'
+								placeholder='Enter the Username'
+								name='name'
+								value={props.values.name}
+								onChange={props.handleChange}
+								onBlur={props.handleBlur}
+							/>
 
-					<input
-						type='email'
-						className='form__control'
-						placeholder='Enter the Email'
-						name='email'
-						value={inputData.email}
-						onChange={onChangeValue}
-					/>
-				</div>
-				<div className='form-group mb-4x'>
-					<label
-						htmlFor=''
-						className='form__label'
-					>
-						Password
-						<span className='required'>*</span>
-					</label>
+							<div className='error'>
+								<ErrorMessage name='name' />
+							</div>
+						</div>
+						<div className='form-group mb-4x'>
+							<label
+								htmlFor=''
+								className='form__label'
+							>
+								Email
+								<span className='required'>*</span>
+							</label>
 
-					<input
-						type='password'
-						className='form__control'
-						placeholder='Enter the Password'
-						name='password'
-						value={inputData.password}
-						onChange={onChangeValue}
-					/>
-				</div>
+							<input
+								type='email'
+								className='form__control'
+								placeholder='Enter the email'
+								name='email'
+								value={props.values.email}
+								onChange={props.handleChange}
+								onBlur={props.handleBlur}
+							/>
+							<div className='error'>
+								<ErrorMessage name='email' />
+							</div>
+						</div>
 
-				<button className='btn btn-primary w-100'>Signup</button>
-			</form>
+						<div className='form-group mb-4x'>
+							<label
+								htmlFor=''
+								className='form__label'
+							>
+								Password
+								<span className='required'>*</span>
+							</label>
+
+							<input
+								type='password'
+								className='form__control'
+								placeholder='Enter the Password'
+								name='password'
+								value={props.values.password}
+								onChange={props.handleChange}
+								onBlur={props.handleBlur}
+							/>
+							<div className='error'>
+								<ErrorMessage name='password' />
+							</div>
+						</div>
+
+						<button className='btn btn-primary w-100'>Signup</button>
+					</form>
+				)}
+			</Formik>
 		</>
 	);
 };
