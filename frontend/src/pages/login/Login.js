@@ -1,6 +1,6 @@
 import { ErrorMessage, Formik } from 'formik';
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 
 const Login = () => {
@@ -9,8 +9,6 @@ const Login = () => {
 		email: '',
 		password: '',
 	});
-
-	const navigate = useNavigate();
 
 	const onChangeValue = (e) => {
 		e.preventDefault();
@@ -69,9 +67,12 @@ const Login = () => {
 								onBlur={props.handleBlur}
 								value={props.values.name}
 							/>
-							<div className='error'>
-								<ErrorMessage name='name' />
-							</div>
+
+							<ErrorMessage
+								component='p'
+								className='error'
+								name='name'
+							/>
 						</div>
 						<div className='form-group mb-4x'>
 							<label
@@ -91,9 +92,12 @@ const Login = () => {
 								value={props.values.password}
 								name='password'
 							/>
-							<div className='error'>
-								<ErrorMessage name='password' />
-							</div>
+
+							<ErrorMessage
+								component='p'
+								className='error'
+								name='password'
+							/>
 						</div>
 
 						<button className='btn btn-primary w-100'>Login</button>
