@@ -10,7 +10,8 @@ exports.up = function (knex) {
 		table.string('severity', 255).notNullable();
 		table.string('treatment', 255).notNullable();
 		table.string('notes', 255).notNullable();
-		table.boolean('high_risk', 255).notNullable();
+		table.string('img_url', 255).notNullable();
+		table.boolean('high_risk', 255).nullable().defaultTo(false);
 	});
 };
 
