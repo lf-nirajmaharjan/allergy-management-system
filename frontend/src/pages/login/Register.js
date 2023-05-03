@@ -81,9 +81,12 @@ const Register = () => {
 								onChange={props.handleChange}
 								onBlur={props.handleBlur}
 							/>
-							<div className='error'>
-								<ErrorMessage name='email' />
-							</div>
+
+							<ErrorMessage
+								component='p'
+								className='error'
+								name='email'
+							/>
 						</div>
 
 						<div className='form-group mb-4x'>
@@ -104,9 +107,12 @@ const Register = () => {
 								onChange={props.handleChange}
 								onBlur={props.handleBlur}
 							/>
-							<div className='error'>
-								<ErrorMessage name='password' />
-							</div>
+
+							<ErrorMessage
+								component='p'
+								className='error'
+								name='password'
+							/>
 						</div>
 
 						<button className='btn btn-primary w-100'>Signup</button>

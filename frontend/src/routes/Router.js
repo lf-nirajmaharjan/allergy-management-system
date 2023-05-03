@@ -4,7 +4,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import LoginContainer from '../pages/login';
 import Login from '../pages/login/Login';
 import Register from '../pages/login/Register';
-import Dashboard from '../pages/dashboard/Dashboard';
+import Dashboard from '../pages/dashboard';
 
 const Router = () => {
 	return (
