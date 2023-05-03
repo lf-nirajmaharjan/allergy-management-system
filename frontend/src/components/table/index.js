@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import { useTable } from 'react-table';
 import Edit from '../../pages/dashboard/Edit';
+import { useGetAllergyData } from '../../api/allergy';
 
 const Table = () => {
+	const { status, data, error, isFetching } = useGetAllergyData();
+
+	console.log(data);
+
 	const [showModal, setShowModal] = useState(false);
 
 	const handleShowModal = () => {
@@ -13,37 +18,31 @@ const Table = () => {
 		setShowModal(false);
 	};
 
-	const tableData = [
-		{
-			col1: 'Hello',
-			col2: 'World',
-			col3: 'World',
-		},
-		{
-			col1: 'react-table',
-			col2: 'rocks',
-			col3: 'rocks',
-		},
-		{
-			col1: 'whatever',
-			col2: 'you want',
-			col3: 'you want',
-		},
-	];
-
 	const tableColumns = React.useMemo(
 		() => [
 			{
-				Header: 'Column 1',
-				accessor: 'col1', // accessor is the "key" in the data
+				Header: 'id',
+				accessor: 'id',
 			},
 			{
-				Header: 'Column 2',
-				accessor: 'col2',
+				Header: 'Name',
+				accessor: 'name',
 			},
 			{
-				Header: 'Column 3',
-				accessor: 'col3',
+				Header: 'Symptoms',
+				accessor: 'symptoms',
+			},
+			{
+				Header: 'Severity',
+				accessor: 'severity',
+			},
+			{
+				Header: 'Treatment',
+				accessor: 'treatment',
+			},
+			{
+				Header: 'Notes',
+				accessor: 'notes',
 			},
 			{
 				Header: 'Actions',
@@ -65,8 +64,14 @@ const Table = () => {
 		[]
 	);
 
+	
 	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-		useTable({ columns: tableColumns, data: tableData });
+		useTable({ columns: tableColumns, data: data || []});
+
+	if(!data){
+		return <p>loading</p>
+	}
+
 
 	return (
 		<>

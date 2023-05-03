@@ -29,7 +29,9 @@ const Add = (props) => {
 				<Formik
 					initialValues={initialValues}
 					validationSchema={allergySchema}
-					onSubmit={props.onClose}
+					onSubmit={(values) => {
+						console.log(values);
+					}}
 				>
 					{(props) => (
 						<form onSubmit={props.handleSubmit}>
