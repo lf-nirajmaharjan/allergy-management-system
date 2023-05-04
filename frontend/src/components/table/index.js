@@ -1,62 +1,76 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useTable } from 'react-table';
 import Edit from '../../pages/dashboard/Edit';
+import { useGetAllergyData } from '../../api/allergy';
+import Delete from '../../pages/dashboard/Delete';
+import { useNavigate } from 'react-router-dom';
 
 const Table = () => {
+	const { data } = useGetAllergyData();
+	const [activeRowData, setActiveRowData] = useState();
+
 	const [showModal, setShowModal] = useState(false);
+	const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-	const handleShowModal = () => {
-		setShowModal(true);
-	};
+	const navigate = useNavigate();
 
-	const onClose = () => {
-		setShowModal(false);
-	};
-
-	const tableData = [
-		{
-			col1: 'Hello',
-			col2: 'World',
-			col3: 'World',
-		},
-		{
-			col1: 'react-table',
-			col2: 'rocks',
-			col3: 'rocks',
-		},
-		{
-			col1: 'whatever',
-			col2: 'you want',
-			col3: 'you want',
-		},
-	];
-
-	const tableColumns = React.useMemo(
+	const tableColumns = useMemo(
 		() => [
 			{
-				Header: 'Column 1',
-				accessor: 'col1', // accessor is the "key" in the data
+				Header: 'id',
+				accessor: 'id',
 			},
 			{
-				Header: 'Column 2',
-				accessor: 'col2',
+				Header: 'Name',
+				accessor: 'name',
 			},
 			{
-				Header: 'Column 3',
-				accessor: 'col3',
+				Header: 'Symptoms',
+				accessor: 'symptoms',
+			},
+			{
+				Header: 'Severity',
+				accessor: 'severity',
+			},
+			{
+				Header: 'Treatment',
+				accessor: 'treatment',
+			},
+			{
+				Header: 'Notes',
+				accessor: 'notes',
 			},
 			{
 				Header: 'Actions',
-				Cell: () => {
+				Cell: (values) => {
 					return (
 						<div className='d-flex gap-2x'>
 							<button
 								className='btn btn-primary'
-								onClick={handleShowModal}
+								onClick={() => {
+									setShowModal(true);
+									setActiveRowData(values.cell.row.original);
+								}}
 							>
 								Edit
 							</button>
-							<button className='btn btn-danger'>Delete</button>
+							<button
+								className='btn btn-secondary'
+								onClick={() => {
+									navigate('/dashboard-detail');
+								}}
+							>
+								View
+							</button>
+							<button
+								className='btn btn-danger'
+								onClick={() => {
+									setActiveRowData(values.cell.row.original);
+									setShowDeleteModal(true);
+								}}
+							>
+								Delete
+							</button>
 						</div>
 					);
 				},
@@ -66,14 +80,27 @@ const Table = () => {
 	);
 
 	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-		useTable({ columns: tableColumns, data: tableData });
+		useTable({ columns: tableColumns, data: data || [] });
+
+	if (!data) {
+		return <p>loading</p>;
+	}
 
 	return (
 		<>
 			{showModal && (
 				<Edit
-					onClose={onClose}
+					activeRowData={activeRowData}
+					setShowModal={setShowModal}
 					title='Edit Allergy'
+				/>
+			)}
+
+			{showDeleteModal && (
+				<Delete
+					activeRowData={activeRowData}
+					setShowDeleteModal={setShowDeleteModal}
+					title='Delete Item'
 				/>
 			)}
 

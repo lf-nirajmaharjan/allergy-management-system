@@ -2,14 +2,29 @@ import React from 'react';
 import { ErrorMessage, Formik } from 'formik';
 import { object, string } from 'yup';
 import Modal from '../../components/modal';
+import { postAllergyData } from '../../api/allergy';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 const Add = (props) => {
+	const queryClient = useQueryClient();
+	const { mutate, isLoading } = useMutation(postAllergyData, {
+		onSuccess: () => {
+			props.setShowModal(false);
+			return queryClient.invalidateQueries({ queryKey: ['getAllAllergy'] });
+		},
+
+		onError: () => {
+			console.log('error');
+		},
+	});
+
 	const initialValues = {
 		name: '',
 		symptoms: '',
 		severity: undefined,
 		treatment: '',
 		notes: '',
+		img_url: 'https://picsum.photos/200/300',
 	};
 
 	const allergySchema = object({
@@ -23,13 +38,17 @@ const Add = (props) => {
 	return (
 		<>
 			<Modal
-				onClose={props.onClose}
+				onClose={() => {
+					props.setShowModal(false);
+				}}
 				title={props.title}
 			>
 				<Formik
 					initialValues={initialValues}
 					validationSchema={allergySchema}
-					onSubmit={props.onClose}
+					onSubmit={(values) => {
+						mutate(values);
+					}}
 				>
 					{(props) => (
 						<form onSubmit={props.handleSubmit}>
@@ -127,11 +146,12 @@ const Add = (props) => {
 							</div>
 
 							<div className='form__group'>
-								<input
+								<button
 									className='btn btn-primary'
 									type='submit'
-									value='Submit'
-								/>
+								>
+									{isLoading ? 'Loading' : 'submit'}
+								</button>
 							</div>
 						</form>
 					)}

@@ -2,14 +2,29 @@ import React from 'react';
 import { ErrorMessage, Formik } from 'formik';
 import { object, string } from 'yup';
 import Modal from '../../components/modal';
+import { useUpdateAllergyData } from '../../api/allergy';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 const Edit = (props) => {
+	const queryClient = useQueryClient();
+	const { mutate, isLoading } = useMutation(useUpdateAllergyData, {
+		onSuccess: () => {
+			props.setShowModal(false);
+			return queryClient.invalidateQueries({ queryKey: ['getAllAllergy'] });
+		},
+
+		onError: () => {
+			console.log('error');
+		},
+	});
+
 	const initialValues = {
-		name: '',
-		symptoms: '',
-		severity: undefined,
-		treatment: '',
-		notes: '',
+		id: props.activeRowData.id,
+		name: props.activeRowData.name,
+		symptoms: props.activeRowData.symptoms,
+		severity: props.activeRowData.severity,
+		treatment: props.activeRowData.treatment,
+		notes: props.activeRowData.notes,
 	};
 
 	const allergySchema = object({
@@ -23,13 +38,17 @@ const Edit = (props) => {
 	return (
 		<>
 			<Modal
-				onClose={props.onClose}
+				onClose={() => {
+					props.setShowModal(false);
+				}}
 				title={props.title}
 			>
 				<Formik
 					initialValues={initialValues}
 					validationSchema={allergySchema}
-					onSubmit={props.onClose}
+					onSubmit={(values) => {
+						mutate(values);
+					}}
 				>
 					{(props) => (
 						<form onSubmit={props.handleSubmit}>
@@ -128,11 +147,12 @@ const Edit = (props) => {
 							</div>
 
 							<div className='form__group'>
-								<input
+								<button
 									className='btn btn-primary'
 									type='submit'
-									value='Submit'
-								/>
+								>
+									{isLoading ? 'Loading' : 'submit'}
+								</button>
 							</div>
 						</form>
 					)}
