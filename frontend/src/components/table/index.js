@@ -1,24 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useTable } from 'react-table';
 import Edit from '../../pages/dashboard/Edit';
 import { useGetAllergyData } from '../../api/allergy';
+import Delete from '../../pages/dashboard/Delete';
+import { useNavigate } from 'react-router-dom';
 
 const Table = () => {
-	const { status, data, error, isFetching } = useGetAllergyData();
-
-	console.log(data);
+	const { data } = useGetAllergyData();
+	const [activeRowData, setActiveRowData] = useState();
 
 	const [showModal, setShowModal] = useState(false);
+	const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-	const handleShowModal = () => {
-		setShowModal(true);
-	};
+	const navigate = useNavigate();
 
-	const onClose = () => {
-		setShowModal(false);
-	};
-
-	const tableColumns = React.useMemo(
+	const tableColumns = useMemo(
 		() => [
 			{
 				Header: 'id',
@@ -46,16 +42,35 @@ const Table = () => {
 			},
 			{
 				Header: 'Actions',
-				Cell: () => {
+				Cell: (values) => {
 					return (
 						<div className='d-flex gap-2x'>
 							<button
 								className='btn btn-primary'
-								onClick={handleShowModal}
+								onClick={() => {
+									setShowModal(true);
+									setActiveRowData(values.cell.row.original);
+								}}
 							>
 								Edit
 							</button>
-							<button className='btn btn-danger'>Delete</button>
+							<button
+								className='btn btn-secondary'
+								onClick={() => {
+									navigate('/dashboard-detail');
+								}}
+							>
+								View
+							</button>
+							<button
+								className='btn btn-danger'
+								onClick={() => {
+									setActiveRowData(values.cell.row.original);
+									setShowDeleteModal(true);
+								}}
+							>
+								Delete
+							</button>
 						</div>
 					);
 				},
@@ -64,21 +79,28 @@ const Table = () => {
 		[]
 	);
 
-	
 	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-		useTable({ columns: tableColumns, data: data || []});
+		useTable({ columns: tableColumns, data: data || [] });
 
-	if(!data){
-		return <p>loading</p>
+	if (!data) {
+		return <p>loading</p>;
 	}
-
 
 	return (
 		<>
 			{showModal && (
 				<Edit
-					onClose={onClose}
+					activeRowData={activeRowData}
+					setShowModal={setShowModal}
 					title='Edit Allergy'
+				/>
+			)}
+
+			{showDeleteModal && (
+				<Delete
+					activeRowData={activeRowData}
+					setShowDeleteModal={setShowDeleteModal}
+					title='Delete Item'
 				/>
 			)}
 
