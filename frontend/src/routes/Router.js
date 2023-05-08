@@ -5,6 +5,7 @@ import LoginContainer from '../pages/login';
 import Login from '../pages/login/Login';
 import Register from '../pages/login/Register';
 import Dashboard from '../pages/dashboard';
+import Detail from '../pages/detail';
 
 const Router = () => {
 	return (
@@ -30,6 +31,11 @@ const Router = () => {
 			<Route
 				path={'/dashboard'}
 				element={<Dashboard />}
+			/>
+
+			<Route
+				path={'/dashboard-detail'}
+				element={<Detail />}
 			/>
 		</Routes>
 	);
