@@ -6,14 +6,6 @@ import Add from './Add';
 const Dashboard = () => {
 	const [showModal, setShowModal] = useState(false);
 
-	const handleShowModal = () => {
-		setShowModal(true);
-	};
-
-	const onClose = () => {
-		setShowModal(false);
-	};
-
 	return (
 		<main className='d-flex'>
 			<Sidebar />
@@ -24,14 +16,16 @@ const Dashboard = () => {
 
 					<button
 						className='btn btn-primary'
-						onClick={handleShowModal}
+						onClick={() => {
+							setShowModal(true);
+						}}
 					>
 						Add New
 					</button>
 
 					{showModal && (
 						<Add
-							onClose={onClose}
+							setShowModal={setShowModal}
 							title='Add Allergy'
 						/>
 					)}

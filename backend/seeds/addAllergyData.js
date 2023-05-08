@@ -13,6 +13,7 @@ exports.seed = async function (knex) {
 			severity: '2',
 			treatment: 'treatment_test1',
 			notes: 'notes_test1',
+			img_url: 'https://picsum.photos/200/300',
 			high_risk: 'true',
 		},
 		{
@@ -22,6 +23,7 @@ exports.seed = async function (knex) {
 			severity: '2',
 			treatment: 'treatment_test2',
 			notes: 'notes_test2',
+			img_url: 'https://picsum.photos/200/300',
 			high_risk: 'true',
 		},
 		{
@@ -31,6 +33,7 @@ exports.seed = async function (knex) {
 			severity: '2',
 			treatment: 'treatment_test3',
 			notes: 'notes_test3',
+			img_url: 'https://picsum.photos/200/300',
 			high_risk: 'true',
 		},
 		{
@@ -40,6 +43,7 @@ exports.seed = async function (knex) {
 			severity: '2',
 			treatment: 'treatment_test4',
 			notes: 'notes_test4',
+			img_url: 'https://picsum.photos/200/300',
 			high_risk: 'true',
 		},
 		{
@@ -49,6 +53,7 @@ exports.seed = async function (knex) {
 			severity: '2',
 			treatment: 'treatment_test5',
 			notes: 'notes_test5',
+			img_url: 'https://picsum.photos/200/300',
 			high_risk: 'true',
 		},
 	]);

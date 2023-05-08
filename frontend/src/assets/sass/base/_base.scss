@@ -171,3 +171,14 @@ pre {
 .error {
 	color: red;
 }
+
+.lists {
+	border: 1px solid #ccc;
+	padding: 16px;
+	border-radius: 4px;
+	li {
+		margin-bottom: 10px 0;
+		padding: 16px 0;
+		border-bottom: 1px solid #ccc;
+	}
+}
