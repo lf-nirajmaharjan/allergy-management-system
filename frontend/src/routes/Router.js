@@ -34,7 +34,7 @@ const Router = () => {
 			/>
 
 			<Route
-				path={'/dashboard-detail'}
+				path={'/dashboard-detail/:userID'}
 				element={<Detail />}
 			/>
 		</Routes>

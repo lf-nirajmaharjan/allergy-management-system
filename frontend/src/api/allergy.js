@@ -40,3 +40,8 @@ export const useDeleteAllergyData = async (id) => {
 	const { data } = await axios.delete(`http://localhost:8000/allergy/${id}`);
 	return data;
 };
+
+export const login = async () => {
+	const { data } = await axios.post(`http://localhost:8000/login`);
+	return data;
+};
