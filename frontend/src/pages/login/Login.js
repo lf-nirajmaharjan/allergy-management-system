@@ -1,21 +1,9 @@
+import React from 'react';
 import { ErrorMessage, Formik } from 'formik';
-import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 
 const Login = () => {
-	const [inputData, setInputData] = useState({
-		name: '',
-		email: '',
-		password: '',
-	});
-
-	const onChangeValue = (e) => {
-		e.preventDefault();
-		setInputData({ ...inputData, [e.target.name]: e.target.value });
-		console.log([e.target.name]);
-	};
-
 	const initialValues = {
 		name: '',
 		password: '',

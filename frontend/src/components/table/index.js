@@ -50,6 +50,7 @@ const Table = () => {
 								onClick={() => {
 									setShowModal(true);
 									setActiveRowData(values.cell.row.original);
+									console.log(values);
 								}}
 							>
 								Edit
@@ -57,7 +58,7 @@ const Table = () => {
 							<button
 								className='btn btn-secondary'
 								onClick={() => {
-									navigate('/dashboard-detail');
+									navigate(`/dashboard-detail/${values.cell.row.original.id}`);
 								}}
 							>
 								View
@@ -76,7 +77,7 @@ const Table = () => {
 				},
 			},
 		],
-		[]
+		[navigate]
 	);
 
 	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
