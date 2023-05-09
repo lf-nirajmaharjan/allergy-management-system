@@ -2,6 +2,7 @@ const express = require('express');
 const pool = require('./database');
 const cors = require('cors');
 const app = express();
+const userRouter = require('./routes/user.js');
 const port = 8000;
 
 app.use(express.json());
@@ -86,6 +87,10 @@ app.delete('/allergy/:id', (req, res) => {
 
 	res.status(200).json(allergy);
 });
+
+
+
+app.use(userRouter);
 
 app.listen(port, () => {
 	console.log(`Example app listening on port ${port}`);
