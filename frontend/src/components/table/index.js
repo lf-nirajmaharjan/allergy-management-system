@@ -1,18 +1,26 @@
-import React, { useState, useMemo } from 'react';
-import { useTable } from 'react-table';
+import React, { useState, useMemo, useEffect } from 'react';
+import { useTable, useSortBy } from 'react-table';
 import Edit from '../../pages/dashboard/Edit';
 import { useGetAllergyData } from '../../api/allergy';
 import Delete from '../../pages/dashboard/Delete';
 import { useNavigate } from 'react-router-dom';
+import HighRisk from '../../pages/dashboard/HighRisk';
 
 const Table = () => {
 	const { data } = useGetAllergyData();
-	const [activeRowData, setActiveRowData] = useState();
 
+	const [activeRowData, setActiveRowData] = useState();
 	const [showModal, setShowModal] = useState(false);
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
-
+	const [showHighRiskModal, setShowHighRiskModal] = useState(false);
+	const [sortedData, setSortedData] = useState(data);
+	const realData = React.useMemo(() => sortedData || [], [sortedData]);
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		const sortedData = data?.sort((a, b) => b.high_risk - a.high_risk);
+		setSortedData(sortedData);
+	}, [data]);
 
 	const tableColumns = useMemo(
 		() => [
@@ -23,6 +31,24 @@ const Table = () => {
 			{
 				Header: 'Name',
 				accessor: 'name',
+			},
+			{
+				Header: 'High risk',
+				Cell: (values) => {
+					return (
+						<div>
+							<input
+								className='high_risk_check'
+								type='checkbox'
+								checked={values.cell.row.original.high_risk}
+								onChange={() => {
+									setShowHighRiskModal(true);
+									setActiveRowData(values.cell.row.original);
+								}}
+							/>
+						</div>
+					);
+				},
 			},
 			{
 				Header: 'Symptoms',
@@ -81,7 +107,7 @@ const Table = () => {
 	);
 
 	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-		useTable({ columns: tableColumns, data: data || [] });
+		useTable({ columns: tableColumns, data: realData }, useSortBy);
 
 	if (!data) {
 		return <p>loading</p>;
@@ -105,6 +131,13 @@ const Table = () => {
 				/>
 			)}
 
+			{showHighRiskModal && (
+				<HighRisk
+					setShowHighRiskModal={setShowHighRiskModal}
+					activeRowData={activeRowData}
+				/>
+			)}
+
 			<table
 				className='table'
 				{...getTableProps()}
@@ -114,8 +147,15 @@ const Table = () => {
 						return (
 							<tr {...headerGroup.getHeaderGroupProps()}>
 								{headerGroup.headers.map((column) => (
-									<th {...column.getHeaderProps()}>
+									<th {...column.getHeaderProps(column.getSortByToggleProps())}>
 										{column.render('Header')}
+										<span>
+											{column.isSorted
+												? column.isSortedDesc
+													? ' 🔽'
+													: ' 🔼'
+												: ''}
+										</span>
 									</th>
 								))}
 							</tr>
