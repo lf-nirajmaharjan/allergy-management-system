@@ -1,8 +1,9 @@
 import React from 'react';
 import BrandLogo from '../../assets/images/brand-logo.svg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Sidebar = () => {
+	const navigate = useNavigate();
 	return (
 		<aside className='aside pt-8x'>
 			<div className='logo text-center mb-8x'>
@@ -39,7 +40,13 @@ const Sidebar = () => {
 					</li>
 				</ul>
 
-				<button className='py-6x mb-0x mt-auto logout'>
+				<button
+					className='py-6x mb-0x mt-auto logout'
+					onClick={() => {
+						localStorage.clear();
+						navigate('/login');
+					}}
+				>
 					<span className='nav__text'>Logout</span>
 				</button>
 			</nav>

@@ -41,7 +41,13 @@ export const useDeleteAllergyData = async (id) => {
 	return data;
 };
 
-export const login = async () => {
-	const { data } = await axios.post(`http://localhost:8000/login`);
+export const register = async (user) => {
+	const { data } = await axios.post(`http://localhost:8000/register`, user);
+	return data;
+};
+
+export const login = async (userLogin) => {
+	const { data } = await axios.post(`http://localhost:8000/login`, userLogin);
+	console.log(data);
 	return data;
 };

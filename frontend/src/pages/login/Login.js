@@ -1,16 +1,36 @@
 import React from 'react';
 import { ErrorMessage, Formik } from 'formik';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
+import { useMutation } from '@tanstack/react-query';
+import { login } from '../../api/allergy';
 
 const Login = () => {
+	const navigate = useNavigate();
+	const { mutate, isLoading } = useMutation(login, {
+		onSuccess: (data) => {
+			console.log(data);
+
+			localStorage.setItem('accessToken', data);
+			navigate('/dashboard');
+		},
+
+		onError: () => {
+			console.log('Error');
+		},
+	});
+
+	if (isLoading) {
+		return 'Loading';
+	}
+
 	const initialValues = {
-		name: '',
+		username: '',
 		password: '',
 	};
 
 	const loginSchema = Yup.object().shape({
-		name: Yup.string().required('Username is required'),
+		username: Yup.string().required('Username is required'),
 		password: Yup.string()
 			.required('Password is required')
 			.min(4, 'Password is too short -  Should be atleast 4 Chars minimum')
@@ -29,7 +49,7 @@ const Login = () => {
 				initialValues={initialValues}
 				validationSchema={loginSchema}
 				onSubmit={(values) => {
-					console.log(values);
+					mutate(values);
 				}}
 			>
 				{(props) => (
@@ -50,16 +70,16 @@ const Login = () => {
 								type='text'
 								className='form__control'
 								placeholder='Enter the Username'
-								name='name'
+								name='username'
 								onChange={props.handleChange}
 								onBlur={props.handleBlur}
-								value={props.values.name}
+								value={props.values.username}
 							/>
 
 							<ErrorMessage
 								component='p'
 								className='error'
-								name='name'
+								name='username'
 							/>
 						</div>
 						<div className='form-group mb-4x'>

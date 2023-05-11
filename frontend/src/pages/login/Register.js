@@ -1,18 +1,35 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import * as Yup from 'yup';
 import { Formik, ErrorMessage } from 'formik';
+import { useMutation } from '@tanstack/react-query';
+import { register } from '../../api/allergy';
 
 const Register = () => {
+	const navigate = useNavigate();
+	const { mutate, isLoading } = useMutation(register, {
+		onSuccess: () => {
+			navigate('/login');
+		},
+
+		onError: () => {
+			console.log('Error');
+		},
+	});
+
+	if (isLoading) {
+		return 'Loading';
+	}
+
 	const initialValues = {
-		name: '',
+		username: '',
 		email: '',
 		password: '',
 	};
 
 	const signInSchema = Yup.object().shape({
-		name: Yup.string().required('Username is required'),
+		username: Yup.string().required('Username is required'),
 		email: Yup.string().email('Invalid email.').required('Email is required'),
 		password: Yup.string()
 			.required('Password is required')
@@ -32,7 +49,7 @@ const Register = () => {
 				initialValues={initialValues}
 				validationSchema={signInSchema}
 				onSubmit={(values) => {
-					console.log(values);
+					mutate(values);
 				}}
 			>
 				{(props) => (
@@ -53,14 +70,14 @@ const Register = () => {
 								type='text'
 								className='form__control'
 								placeholder='Enter the Username'
-								name='name'
-								value={props.values.name}
+								name='username'
+								value={props.values.username}
 								onChange={props.handleChange}
 								onBlur={props.handleBlur}
 							/>
 
 							<div className='error'>
-								<ErrorMessage name='name' />
+								<ErrorMessage name='username' />
 							</div>
 						</div>
 						<div className='form-group mb-4x'>
@@ -115,7 +132,12 @@ const Register = () => {
 							/>
 						</div>
 
-						<button className='btn btn-primary w-100'>Signup</button>
+						<button
+							type='submit'
+							className='btn btn-primary w-100'
+						>
+							Signup
+						</button>
 					</form>
 				)}
 			</Formik>

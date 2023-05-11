@@ -6,7 +6,8 @@ const userRouter = require('./routes/user.js');
 const port = 8000;
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({ origin: true, credentials: true }));
+app.use(userRouter);
 
 app.get('/', (req, res) => {
 	res.send('Hello World!');
@@ -54,10 +55,11 @@ app.post('/allergy', async (req, res) => {
 
 app.put('/allergy/:id', (req, res) => {
 	const id = parseInt(req.params.id);
-	const { name, symptoms, severity, treatment, notes, img_url } = req.body;
+	const { name, symptoms, severity, treatment, notes, high_risk, img_url } =
+		req.body;
 	const allergy = pool.query(
-		'UPDATE ams_table SET name=$1, symptoms=$2, severity=$3, treatment=$4, notes=$5, img_url=$6 WHERE id=$7',
-		[name, symptoms, severity, treatment, notes, img_url, id],
+		'UPDATE ams_table SET name=$1, symptoms=$2, severity=$3, treatment=$4, notes=$5, high_risk=$6, img_url=$7 WHERE id=$8',
+		[name, symptoms, severity, treatment, notes, high_risk, img_url, id],
 		(error, results) => {
 			if (error) {
 				console.log(error);
@@ -87,10 +89,6 @@ app.delete('/allergy/:id', (req, res) => {
 
 	res.status(200).json(allergy);
 });
-
-
-
-app.use(userRouter);
 
 app.listen(port, () => {
 	console.log(`Example app listening on port ${port}`);
