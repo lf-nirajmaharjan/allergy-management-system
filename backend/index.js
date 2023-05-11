@@ -90,6 +90,10 @@ app.delete('/allergy/:id', (req, res) => {
 	res.status(200).json(allergy);
 });
 
+
+
+app.use(userRouter);
+
 app.listen(port, () => {
 	console.log(`Example app listening on port ${port}`);
 });
